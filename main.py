@@ -1,5 +1,15 @@
 import sys
 from typing import List
+from enum import Enum, auto
+
+
+class Tokens(Enum):
+
+    PUSH = auto()
+    POP = auto()
+    PEEK = auto()
+    PRINT = auto()
+
 
 def readFileReturnTokens(file):
     tokens = []
@@ -12,22 +22,22 @@ def readFileReturnTokens(file):
     return tokens
 
 
-def interpret(file):
+def interpret(tokens):
     stack = []
-    tokens = readFileReturnTokens(file)
     for i, token in enumerate(tokens):
-        if token == "push":
-            stack.append(tokens[i+1])
-        elif token == "pop":
-            c = stack.pop()
-        elif token == ",":
-            print(c, end="")
-        elif token == "20":
-            pass
-        else:
-            assert False, f"Unknown Token Found: {token}, type: {type(token)}"
+        try:
+            int(token)
+        except Exception:
+            if token == "push":
+                stack.append(tokens[i+1])
+            elif token == "pop":
+                c = stack.pop()
+            elif token == ",":
+                print(c, end="")
+            else:
+                assert False, f"Unknown Token Found: {token}"
 
-def compile(file):
+def compile(tokens):
     pass
 
 
@@ -41,11 +51,14 @@ def compile(file):
 #     print("if compiling, use -r to run after compilation")
 #     exit(1)
 # file = sys.argv[1]
+# tokens = readFileReturnTokens(file)
+
 
 # if "-i" in sys.argv:
 #     interpret(file)
 # elif "-c" in sys.argv:
 #     compile(file)
 
-interpret("test.txt")
+tokens = readFileReturnTokens("test.txt")
+interpret(tokens)
 
