@@ -24,6 +24,8 @@ def readFileReturnTokens(file):
 
 def interpret(tokens):
     stack = []
+    c = None
+    d = None
     for i, token in enumerate(tokens):
         try:
             int(token)
@@ -33,7 +35,10 @@ def interpret(tokens):
             elif token == "pop":
                 c = stack.pop()
             elif token == ",":
-                print(c, end="")
+                print(c, end="\n")
+            elif token == "peek":
+                c = stack[len(stack) - 1]
+                print(stack)
             else:
                 assert False, f"Unknown Token Found: {token}"
 
