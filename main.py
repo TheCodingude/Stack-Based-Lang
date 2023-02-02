@@ -9,6 +9,7 @@ class Tokens(Enum):
     POP = auto()
     PEEK = auto()
     PRINT = auto()
+    PLUS = auto()
 
 
 def readFileReturnTokens(file):
@@ -29,16 +30,18 @@ def interpret(tokens):
     for i, token in enumerate(tokens):
         try:
             int(token)
+            stack.append(token)
         except Exception:
             if token == "push":
                 stack.append(tokens[i+1])
             elif token == "pop":
                 c = stack.pop()
-            elif token == ",":
-                print(c, end="\n")
             elif token == "peek":
                 c = stack[len(stack) - 1]
-                print(stack)
+            elif token == ",":
+                print(stack.pop())
+            elif token == "+":
+                stack.append(int(stack.pop()) + int(stack.pop()))
             else:
                 assert False, f"Unknown Token Found: {token}"
 
@@ -53,7 +56,7 @@ def compile(tokens):
 #     print("must also provide a flag:\n")
 #     print("-i to interpret the program")
 #     print("-c to compile the program")
-#     print("if compiling, use -r to run after compilation")
+#     print("if compieling, use -r to run after compilation")
 #     exit(1)
 # file = sys.argv[1]
 # tokens = readFileReturnTokens(file)
@@ -64,6 +67,6 @@ def compile(tokens):
 # elif "-c" in sys.argv:
 #     compile(file)
 
-tokens = readFileReturnTokens("test.txt")
+tokens = readFileReturnTokens("addition.txt")
 interpret(tokens)
 
