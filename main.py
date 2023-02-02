@@ -10,7 +10,7 @@ class Tokens(Enum):
     PEEK = auto()
     PRINT = auto()
     PLUS = auto()
-
+    SUBTRACT = auto()
 
 def readFileReturnTokens(file):
     tokens = []
@@ -42,6 +42,10 @@ def interpret(tokens):
                 print(stack.pop())
             elif token == "+":
                 stack.append(int(stack.pop()) + int(stack.pop()))
+            elif token == "-":
+                c = int(stack.pop())
+                d = int(stack.pop())
+                stack.append(d - c)
             else:
                 assert False, f"Unknown Token Found: {token}"
 
@@ -67,6 +71,6 @@ def compile(tokens):
 # elif "-c" in sys.argv:
 #     compile(file)
 
-tokens = readFileReturnTokens("addition.txt")
+tokens = readFileReturnTokens("subtract.txt")
 interpret(tokens)
 
