@@ -1,0 +1,5 @@
+push 69
+push 30
+push 20
+
+peek ,
