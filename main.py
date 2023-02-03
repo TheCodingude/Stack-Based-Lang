@@ -55,6 +55,10 @@ def interpret(tokens):
                 c = int(stack.pop())
                 d = int(stack.pop())
                 stack.append(d / c)
+            elif token == "^":
+                c = int(stack.pop())
+                d = int(stack.pop())
+                stack.append(c ** d)
             else:
                 assert False, f"Unknown Token Found: {token}"
 
