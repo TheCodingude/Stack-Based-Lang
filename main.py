@@ -51,6 +51,10 @@ def interpret(tokens):
                 c = int(stack.pop())
                 d = int(stack.pop())
                 stack.append(c * d)
+            elif token == "/":
+                c = int(stack.pop())
+                d = int(stack.pop())
+                stack.append(d / c)
             else:
                 assert False, f"Unknown Token Found: {token}"
 
@@ -76,6 +80,6 @@ def compile(tokens):
 # elif "-c" in sys.argv:
 #     compile(file)
 
-tokens = readFileReturnTokens("multiply.txt")
+tokens = readFileReturnTokens("test.txt")
 interpret(tokens)
 
