@@ -18,6 +18,7 @@ def readFileReturnTokens(file):
     with open(file, "r") as f:
         lines: List[str] = f.readlines()
         for line in lines:
+            line = line.split("//")[0].strip()
             for word in line.split(" "):
                 if str(word) != "\n":
                     tokens.append(str(word).removesuffix("\n"))
@@ -73,7 +74,7 @@ def compile(tokens):
 #     print("must also provide a flag:\n")
 #     print("-i to interpret the program")
 #     print("-c to compile the program")
-#     print("if compieling, use -r to run after compilation")
+#     print("if compiling, use -r to run after compilation")
 #     exit(1)
 # file = sys.argv[1]
 # tokens = readFileReturnTokens(file)
