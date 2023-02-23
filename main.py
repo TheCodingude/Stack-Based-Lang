@@ -12,13 +12,16 @@ class Tokens(Enum):
     PLUS = auto()
     SUBTRACT = auto()
     MULTIPLY = auto()
+    DIVISION = auto()
+    EXPONENT = auto()
+    FLOOR_DIV = auto()
 
 def readFileReturnTokens(file):
     tokens = []
     with open(file, "r") as f:
         lines: List[str] = f.readlines()
         for line in lines:
-            line = line.split("//")[0].strip()
+            line = line.split("#")[0].strip()
             for word in line.split(" "):
                 if str(word) != "\n":
                     tokens.append(str(word).removesuffix("\n"))
@@ -27,12 +30,12 @@ def readFileReturnTokens(file):
 
 def interpret(tokens):
     stack = []
+    virtual_memory = []
     c = None
     d = None
     for i, token in enumerate(tokens):
         try:
-            int(token)
-            stack.append(token)
+            stack.append(int(token))
         except Exception:
             if token == "push":
                 stack.append(tokens[i+1])
@@ -45,26 +48,33 @@ def interpret(tokens):
             elif token == "+":
                 stack.append(int(stack.pop()) + int(stack.pop()))
             elif token == "-":
-                c = int(stack.pop())
-                d = int(stack.pop())
+                c = stack.pop()
+                d = stack.pop()
                 stack.append(d - c)
             elif token == "*":
-                c = int(stack.pop())
-                d = int(stack.pop())
+                c = stack.pop()
+                d = stack.pop()
                 stack.append(c * d)
             elif token == "/":
-                c = int(stack.pop())
-                d = int(stack.pop())
+                c = stack.pop()
+                d = stack.pop()
                 stack.append(d / c)
             elif token == "^":
-                c = int(stack.pop())
-                d = int(stack.pop())
+                c = stack.pop()
+                d = stack.pop()
                 stack.append(c ** d)
+            elif token == "//":
+                c = stack.pop()
+                d = stack.pop()
+                stack.append(d // c)
+            elif token == " " or "\n":
+                pass
             else:
                 assert False, f"Unknown Token Found: {token}"
 
-def compile(tokens):
-    pass
+def compile(tokens, output_file):
+    with open(output_file, "w") as f:
+        f.write("")
 
 
 
@@ -88,3 +98,4 @@ def compile(tokens):
 tokens = readFileReturnTokens("test.txt")
 interpret(tokens)
 
+# python3 main.py test.txt -c test.asm
